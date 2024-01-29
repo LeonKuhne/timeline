@@ -139,7 +139,7 @@ export default class Timeline extends HTMLElement {
     if (includeDemo == null) includeDemo = (this.mode == 'add')
     const isBetween = (x, a, b) => {
       // account for scroll position
-      x += window.scrollX
+      x += window.scrollX + this.scrollLeft
       const leftBounds = a.offsetLeft - a.offsetWidth/2 
       const rightBounds = b.offsetLeft 
       return x >= leftBounds && x <= rightBounds

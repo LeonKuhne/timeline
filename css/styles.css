@@ -10,21 +10,23 @@ html {
   flex-direction: column;
   background: var(--bg0);
   > * { flex: 1; }
-} h1, h3 {
+} #instructions, #project {
   position: absolute;
   left: 0;
   width: 100%;
   text-align: center;
   user-select: none;
-} h1 {
-  top: 6%;
-} #upload {
-  bottom: 12%;
-} #download {
-  bottom: 6%;
-} h3 a, h3 label {
-  text-decoration: none;
-  color: black;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+} #instructions {
+  top: 7%;
+} #project {
+  bottom: 7%;
+  a, label {
+    text-decoration: none;
+    color: black;
+  }
 } #download :hover, #upload :hover {
   cursor: pointer;
   color: var(--alt3);
