@@ -85,6 +85,13 @@ export default class Timeline extends HTMLElement {
       this.dispatchEvent(new MouseEvent('mousemove', e))
     })
 
+    // scroll y -> change font size
+    this.addEventListener('wheel', (e) => {
+      const delta = Math.sign(-e.deltaY) * 0.1
+      const fontSize = parseFloat(getComputedStyle(this).fontSize)
+      this.style.fontSize = `${fontSize + delta}px`
+    })
+
     this.created = true
   }
 

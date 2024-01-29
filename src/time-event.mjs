@@ -1,4 +1,5 @@
 export default class TimeEvent extends HTMLElement {
+  minWidth = 10
   constructor() { super() }
 
   connectedCallback() {
@@ -30,7 +31,7 @@ export default class TimeEvent extends HTMLElement {
     this.nameElem.placeholder = tempName ?? `#${Math.random().toString(36).substring(7)}`
     this.descriptionElem.placeholder = tempDesc ?? "click to edit"
     this.nameElem.addEventListener('input', () => {
-      const width = `${Math.max(this.nameElem.value.length * 1.1, 8)}ch`
+      const width = `${Math.max(this.nameElem.value.length * 1.1, this.minWidth)}ch`
       this.style.minWidth = width
       this.nameElem.style.width = width
     })

@@ -16,6 +16,7 @@
 } tl-timeline {
   display: flex;
   overflow-y: hidden;
+  font-size: 1.25rem;
 } tl-timeline[mode="add"] {
   cursor: copy !important;
 } tl-timeline[mode="edit"] {
@@ -47,7 +48,7 @@
       color: var(--primary);
       min-width: 8ch;
       font-family: 'Consolas', monospace;
-      font-size: 1rem;
+      font-size: 100%;
       height: min-content;
       padding-top: 100vh;
     } input.name:focus {
@@ -62,7 +63,8 @@
     padding: 0;
     margin: 0;
     resize: none;
-    font-size: .75rem;
+    font-size: 75%;
+    text-align: center;
   } textarea.description:focus {
     outline: none;
   }
@@ -92,7 +94,6 @@
       position: relative !important;
       margin: auto;
       display: block;
-      text-align: center;
       padding-top: 0;
       min-width: var(--marker-size);
       min-height: var(--marker-size);
