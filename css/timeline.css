@@ -100,6 +100,7 @@
       max-width: var(--marker-size);
       max-height: var(--marker-size);
       font-size: 0.75rem;
+      text-align: center;
     }
   }
 } .line { 
