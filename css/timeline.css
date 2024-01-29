@@ -1,0 +1,73 @@
+:root {
+  --primary: #fff;
+  --secondary: #ccc;
+  --tertiary: #111;
+  --bg0: #000;
+  --bg1: rgb(89, 6, 31);
+  --alt0: #f50F55;
+  --alt1: #5F55F5;
+  --alt2: #55F5F5;
+  --alt3: #F5F555;
+  --alt4: #F555F5;
+  --alt5: #f57255;
+  --marker-size: 2rem;
+} .hidden {
+  display: none;
+} tl-timeline {
+  display: flex;
+  width: min-content;
+} tl-timeline[mode="add"] {
+  cursor: copy;
+} tl-timeline[mode="edit"] {
+  background: var(--tertiary) !important;
+  cursor: pointer;
+} tl-event {
+  color: white;
+  flex: 1;
+  max-width: min-content;
+  min-width: 5rem;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  > * { flex: 1; }
+  .name-container {
+    position: relative;
+    .name {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+} tl-event.active {
+  background: var(--bg1) !important;
+} .demo { 
+  .line {
+    box-shadow: 0 0 5px 5px var(--bg1);
+    background: var(--primary);
+    z-index: 1;
+  }
+} .marker {
+  border-radius: 50%;
+  margin: auto 0;
+  min-width: var(--marker-size);
+  min-height: var(--marker-size);
+  max-width: var(--marker-size);
+  max-height: var(--marker-size);
+  color: var(--bg0);
+  background: var(--primary);
+  z-index: 10;
+  .name-container {
+    display: flex;
+    .name {
+      flex: 1;
+      position: relative !important;
+      margin: auto;
+      display: block;
+      text-align: center;
+    }
+  }
+} .line { 
+  max-height: 5px;
+  background: var(--alt5);
+  box-shadow: none;
+}

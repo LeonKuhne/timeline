@@ -1,0 +1,16 @@
+html {
+  background: var(--bg1);
+  min-height: 100%;
+}
+body { 
+  margin: auto;
+  min-width: 100%;
+  width: min-content;
+  height: 60%;
+  padding: 5% 10%;
+  margin-top: 30%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg0);
+  > * { flex: 1; }
+}
