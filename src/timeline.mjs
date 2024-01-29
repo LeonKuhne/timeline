@@ -26,29 +26,51 @@ export default class Timeline extends HTMLElement {
           idx = this.getCursorIndex(e.clientX)
           if (idx == null) { this.demo.hide(); return }
           this.moveEvent(idx, this.demo)
+          // delete mode
+          if (e.ctrlKey) {
+            this.demo.hide()
+          }
           break;
         // show selected
         case 'edit':
-          if (this.selected) this.selected.deactivate()
+          const newlySelected = this.eventElems[idx]
+          if (this.selected == newlySelected) return;
+          // deselect
+          if (this.selected) {
+            this.selected.deactivate()
+            this.selected.unfocus()
+          }
+          // select
           idx = this.getCursorIndex(e.clientX)
           if (idx == null) return
-          this.selected = this.eventElems[idx]
+          this.selected = newlySelected
           this.selected.activate()
           break;
       }
     })
 
-    // left click -> spawn event
     this.addEventListener('click', (e) => { 
-      const idx = this.getCursorIndex(e.clientX)
-      const elem = this.cloneBefore(idx, this.demo)
-      setTimeout(() => {
-        // remove demo class
-        elem.classList.remove('demo')
-        elem.title = `#${Math.random().toString(36).substring(7)}`
-        elem.description = "click to edit"
-      })
-      this.dispatchEvent(new MouseEvent('mousemove', e))
+      // ctrl + click -> delete
+      if (e.ctrlKey) {
+        const idx = this.getCursorIndex(e.clientX, false)
+        const elem = this.eventElems[idx]
+        if (elem) elem.remove()
+        return;
+      }
+      // click -> spawn event
+      switch (this.mode) {
+        case 'add':
+          const idx = this.getCursorIndex(e.clientX)
+          const elem = this.cloneBefore(idx, this.demo)
+          setTimeout(() => {
+            // remove demo class
+            elem.classList.remove('demo')
+            elem.tempTitle = `#${Math.random().toString(36).substring(7)}`
+            elem.tempDescription = "click to edit"
+          })
+          this.dispatchEvent(new MouseEvent('mousemove', e))
+          break;
+      }
     })
 
     // right click -> switch modes
@@ -70,7 +92,7 @@ export default class Timeline extends HTMLElement {
         this.demo.hide()
         break;
       case 'edit':
-        this.selected.deactivate()
+        this.selected?.deactivate()
         break;
     }
     // update state properties
@@ -93,9 +115,11 @@ export default class Timeline extends HTMLElement {
     }
   }
 
-  addEvent(name="", callback=null) {
+  addMarker(name="", callback=null) { return this.addElem(callback, elem => elem.setupMarker(name)) }
+  addEvent(name="", callback=null) { return this.addElem(callback, elem => elem.firstTimeSetup(name)) }
+  addElem(callback, method) {
     const elem = this.spawnChild('tl-event', elem => {
-      elem.firstTimeSetup(name)
+      method(elem)
       if (callback) callback(elem)
     })
     return elem
@@ -113,7 +137,8 @@ export default class Timeline extends HTMLElement {
     this.insertBefore(elem, next)
   }
 
-  getCursorIndex(x) {
+  getCursorIndex(x, includeDemo=null) {
+    if (includeDemo == null) includeDemo = (this.mode == 'add')
     const isBetween = (x, a, b) => {
       // account for scroll position
       x += window.scrollX
@@ -122,19 +147,25 @@ export default class Timeline extends HTMLElement {
       return x >= leftBounds && x <= rightBounds
     }
     // include demo in 'add' mode
-    const elems = this.mode == 'add' ? this.allEventElems : this.eventElems
+    const elems = includeDemo ? this.allEventElems : this.eventElems
+    if (elems.length <= 2) return null
     for (let i = 0; i < elems.length - 1; i++) {
       if (isBetween(x, elems[i], elems[i+1])) {
         // move after start
         if (i == 0) return 1
         // move after demo
         if (elems[i-1] == this.demo) return i + 1
+        console.log(elems.length)
         return i
       }
     }
     // include if on end
     const end = elems[elems.length - 1] 
-    if (x >= end.offsetLeft && x <= end.offsetLeft + end.offsetWidth) return elems.length - 2
+    if (x >= end.offsetLeft && x <= end.offsetLeft + end.offsetWidth) {
+      let idx = elems.length - 2
+      if (elems[idx-1] == this.demo) idx - 1
+      return idx 
+    }
     return null
   }
 

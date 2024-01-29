@@ -1,16 +1,23 @@
 html {
   background: var(--bg1);
   min-height: 100%;
-}
-body { 
-  margin: auto;
-  min-width: 100%;
   width: min-content;
-  height: 60%;
-  padding: 5% 10%;
-  margin-top: 30%;
+} body { 
+  margin: auto;
+  width: 100%;
+  min-width: min-content;
+  height: 50vh;
+  margin-top: 25vh;
   display: flex;
   flex-direction: column;
   background: var(--bg0);
   > * { flex: 1; }
+} h1 {
+  position: absolute;
+  top: 6%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+} tl-timeline {
+  padding: 0 5rem;
 }

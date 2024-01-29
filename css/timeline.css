@@ -17,10 +17,10 @@
   display: flex;
   width: min-content;
 } tl-timeline[mode="add"] {
-  cursor: copy;
+  cursor: copy !important;
 } tl-timeline[mode="edit"] {
   background: var(--tertiary) !important;
-  cursor: pointer;
+  cursor: pointer !important;
 } tl-event {
   color: white;
   flex: 1;
@@ -33,10 +33,30 @@
   > * { flex: 1; }
   .name-container {
     position: relative;
-    .name {
+    input.name {
+      cursor: inherit;
       position: absolute;
       bottom: 0;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--primary);
+      display: block;
+    } input.name:focus {
+      outline: none;
     }
+  } textarea.description {
+    cursor: inherit;
+    background: none;
+    color: var(--primary);
+    height: 50%;
+    border: 0;
+    padding: .25rem;
+    resize: none;
+    font-size: .75rem;
+  } textarea.description:focus {
+    outline: none;
   }
 } tl-event.active {
   background: var(--bg1) !important;
@@ -58,7 +78,8 @@
   z-index: 10;
   .name-container {
     display: flex;
-    .name {
+    input.name {
+      color: black;
       flex: 1;
       position: relative !important;
       margin: auto;
