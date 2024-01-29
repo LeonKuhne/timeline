@@ -33,6 +33,7 @@ export default class Timeline extends HTMLElement {
           break;
         // show selected
         case 'edit':
+          idx = this.getCursorIndex(e.clientX)
           const newlySelected = this.eventElems[idx]
           if (this.selected == newlySelected) return;
           // deselect
@@ -41,7 +42,6 @@ export default class Timeline extends HTMLElement {
             this.selected.unfocus()
           }
           // select
-          idx = this.getCursorIndex(e.clientX)
           if (idx == null) return
           this.selected = newlySelected
           this.selected.activate()
