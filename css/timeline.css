@@ -15,7 +15,6 @@
   display: none;
 } tl-timeline {
   display: flex;
-  width: min-content;
 } tl-timeline[mode="add"] {
   cursor: copy !important;
 } tl-timeline[mode="edit"] {

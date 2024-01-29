@@ -8,7 +8,6 @@ export default class Timeline extends HTMLElement {
 
   connectedCallback() {
     if (this.created) return
-    console.log('Timeline connected')
     // create base events
     this.addEvent("start", elem => elem.markify())
     this.demo = this.addEvent("", elem => elem.classList.add('demo'))
@@ -65,8 +64,7 @@ export default class Timeline extends HTMLElement {
           setTimeout(() => {
             // remove demo class
             elem.classList.remove('demo')
-            elem.tempTitle = `#${Math.random().toString(36).substring(7)}`
-            elem.tempDescription = "click to edit"
+            elem.decorate()
           })
           this.dispatchEvent(new MouseEvent('mousemove', e))
           break;
@@ -155,7 +153,6 @@ export default class Timeline extends HTMLElement {
         if (i == 0) return 1
         // move after demo
         if (elems[i-1] == this.demo) return i + 1
-        console.log(elems.length)
         return i
       }
     }
@@ -169,6 +166,23 @@ export default class Timeline extends HTMLElement {
     return null
   }
 
+  clear() { this.eventElems.splice(1, this.eventElems.length-2).forEach(elem => elem.remove()) }
   get allEventElems() { return Array.from(this.children) }
   get eventElems() { return this.allEventElems.filter(elem => !elem.classList.contains('hidden')) }
+  get json() {
+    return this.eventElems
+      .filter(elem => !elem.classList.contains('marker') && !elem.classList.contains('hidden'))
+      .map(elem => elem.json)
+  }
+  set json(data) {
+    this.clear()
+    data.forEach(event => {
+      const preElem = this.addEvent(event.title, elem => {
+        elem.title = event.title
+        elem.description = event.description 
+        elem.decorate()
+      })
+      this.moveEvent(this.eventElems.length - 2, preElem)
+    })
+  }
 }

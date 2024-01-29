@@ -2,7 +2,6 @@ export default class TimeEvent extends HTMLElement {
   constructor() { super() }
 
   connectedCallback() {
-    console.log('TimeEvent connected')
     this.nameElem = this.querySelector('input')
     this.lineElem = this.querySelector('.line')
     this.descriptionElem = this.querySelector('.description')
@@ -10,8 +9,12 @@ export default class TimeEvent extends HTMLElement {
 
   firstTimeSetup(name) {
     this.setupMarker(name)
-    this.lineElem = this.spawnChild('div', elem => elem.classList.add('line'))
-    this.descriptionElem = this.spawnChild('textarea', elem => elem.classList.add('description'))
+    this.lineElem = this.spawnChild('div', elem => {
+      elem.classList.add('line')
+    })
+    this.descriptionElem = this.spawnChild('textarea', elem => {
+      elem.classList.add('description')
+    })
   }
 
   setupMarker(name) {
@@ -23,10 +26,14 @@ export default class TimeEvent extends HTMLElement {
     })
   }
 
+  decorate(tempName=null, tempDesc=null) {
+    this.nameElem.placeholder = tempName ?? `#${Math.random().toString(36).substring(7)}`
+    this.descriptionElem.placeholder = tempDesc ?? "click to edit"
+  }
+
   clone() { return this.cloneNode(true) }
   set title(text) { this.nameElem.value = text }
-  set tempTitle(text) { this.nameElem.placeholder = text }
-  set tempDescription(text) { this.descriptionElem.placeholder = text }
+  set description(text) { this.descriptionElem.value = text }
   markify() { 
     this.classList.add('marker')
     this.descriptionElem.remove()
@@ -35,5 +42,11 @@ export default class TimeEvent extends HTMLElement {
   unfocus() {
     this.nameElem.blur()
     this.descriptionElem.blur()
+  }
+  get json() {
+    return {
+      title: this.nameElem.value,
+      description: this.descriptionElem.value
+    }
   }
 }
