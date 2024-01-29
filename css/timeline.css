@@ -4,7 +4,7 @@
   --tertiary: #111;
   --bg0: #000;
   --bg1: rgb(89, 6, 31);
-  --alt0: #f50F55;
+  --alt0: #ff004c3b;
   --alt1: #5F55F5;
   --alt2: #55F5F5;
   --alt3: #F5F555;
@@ -15,6 +15,7 @@
   display: none;
 } tl-timeline {
   display: flex;
+  overflow-y: hidden;
 } tl-timeline[mode="add"] {
   cursor: copy !important;
 } tl-timeline[mode="edit"] {
@@ -23,8 +24,7 @@
 } tl-event {
   color: white;
   flex: 1;
-  max-width: min-content;
-  min-width: 5rem;
+  min-width: min-content;
   user-select: none;
   display: flex;
   flex-direction: column;
@@ -32,16 +32,24 @@
   > * { flex: 1; }
   .name-container {
     position: relative;
+    min-width: min-content;
+    max-width: min-content;
+    flex: 1;
+    display: flex;
     input.name {
-      cursor: inherit;
+      flex: 1;
       position: absolute;
+      cursor: inherit;
       bottom: 0;
-      width: 100%;
       padding: 0;
       border: 0;
       background: none;
       color: var(--primary);
-      display: block;
+      min-width: 8ch;
+      font-family: 'Consolas', monospace;
+      font-size: 1rem;
+      height: min-content;
+      padding-top: 100vh;
     } input.name:focus {
       outline: none;
     }
@@ -51,7 +59,8 @@
     color: var(--primary);
     height: 50%;
     border: 0;
-    padding: .25rem;
+    padding: 0;
+    margin: 0;
     resize: none;
     font-size: .75rem;
   } textarea.description:focus {
@@ -59,7 +68,10 @@
   }
 } tl-event.active {
   background: var(--bg1) !important;
+} tl-event.deleting {
+  background: var(--alt0) !important;
 } .demo { 
+  min-width: 9ch !important;
   .line {
     box-shadow: 0 0 5px 5px var(--bg1);
     background: var(--primary);
@@ -68,15 +80,12 @@
 } .marker {
   border-radius: 50%;
   margin: auto 0;
-  min-width: var(--marker-size);
-  min-height: var(--marker-size);
-  max-width: var(--marker-size);
-  max-height: var(--marker-size);
-  color: var(--bg0);
   background: var(--primary);
+  border: 2px solid var(--bg1);
   z-index: 10;
+  max-width: min-content;
   .name-container {
-    display: flex;
+    max-width: min-content;
     input.name {
       color: black;
       flex: 1;
@@ -84,6 +93,12 @@
       margin: auto;
       display: block;
       text-align: center;
+      padding-top: 0;
+      min-width: var(--marker-size);
+      min-height: var(--marker-size);
+      max-width: var(--marker-size);
+      max-height: var(--marker-size);
+      font-size: 0.75rem;
     }
   }
 } .line { 

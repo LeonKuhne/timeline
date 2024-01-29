@@ -29,6 +29,12 @@ export default class TimeEvent extends HTMLElement {
   decorate(tempName=null, tempDesc=null) {
     this.nameElem.placeholder = tempName ?? `#${Math.random().toString(36).substring(7)}`
     this.descriptionElem.placeholder = tempDesc ?? "click to edit"
+    this.nameElem.addEventListener('input', () => {
+      const width = `${Math.max(this.nameElem.value.length * 1.1, 8)}ch`
+      this.style.minWidth = width
+      this.nameElem.style.width = width
+    })
+    this.nameElem.dispatchEvent(new Event('input'))
   }
 
   clone() { return this.cloneNode(true) }

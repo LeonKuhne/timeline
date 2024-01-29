@@ -16,24 +16,30 @@ export default class Timeline extends HTMLElement {
     this.setMode('add')
 
     // hover -> demo event
+    this.addEventListener('mouseenter', (e) => { 
+      this.dispatchEvent(new MouseEvent('mousemove', e))
+    })
     this.addEventListener('mousemove', (e) => { 
-      let idx
+      // highlight delete
+      let nonDemoIdx = this.getCursorIndex(e.clientX, false)
+      if (e.ctrlKey && nonDemoIdx != null) this.highlightDelete(nonDemoIdx)
+      else this.unhighlightDelete()
+
       switch(this.mode) {
         // show demo
         case 'add':
           this.demo.show()
-          idx = this.getCursorIndex(e.clientX)
-          if (idx == null) { this.demo.hide(); return }
-          this.moveEvent(idx, this.demo)
+          let withDemoIdx = this.getCursorIndex(e.clientX)
+          if (withDemoIdx == null) { 
+            this.demo.hide(); 
+            return }
+          this.moveEvent(withDemoIdx, this.demo)
           // delete mode
-          if (e.ctrlKey) {
-            this.demo.hide()
-          }
+          if (e.ctrlKey) this.demo.hide()
           break;
         // show selected
         case 'edit':
-          idx = this.getCursorIndex(e.clientX)
-          const newlySelected = this.eventElems[idx]
+          const newlySelected = this.eventElems[nonDemoIdx]
           if (this.selected == newlySelected) return;
           // deselect
           if (this.selected) {
@@ -41,7 +47,7 @@ export default class Timeline extends HTMLElement {
             this.selected.unfocus()
           }
           // select
-          if (idx == null) return
+          if (nonDemoIdx == null) return
           this.selected = newlySelected
           this.selected.activate()
           break;
@@ -54,7 +60,8 @@ export default class Timeline extends HTMLElement {
         const idx = this.getCursorIndex(e.clientX, false)
         const elem = this.eventElems[idx]
         if (elem) elem.remove()
-        return;
+        this.dispatchEvent(new MouseEvent('mousemove', e))
+        return
       }
       // click -> spawn event
       switch (this.mode) {
@@ -66,9 +73,9 @@ export default class Timeline extends HTMLElement {
             elem.classList.remove('demo')
             elem.decorate()
           })
-          this.dispatchEvent(new MouseEvent('mousemove', e))
-          break;
+          break
       }
+      this.dispatchEvent(new MouseEvent('mousemove', e))
     })
 
     // right click -> switch modes
@@ -133,6 +140,16 @@ export default class Timeline extends HTMLElement {
     const next = this.eventElems[idx]
     if (next == elem) return
     this.insertBefore(elem, next)
+  }
+
+  highlightDelete(idx) {
+    const elem = this.eventElems[idx]
+    if (elem.classList.contains('deleting')) return
+    this.unhighlightDelete()
+    elem.classList.add('deleting')
+  }
+  unhighlightDelete() {
+    this.allEventElems.forEach(elem => elem.classList.remove('deleting'))
   }
 
   getCursorIndex(x, includeDemo=null) {
