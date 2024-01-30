@@ -59,6 +59,7 @@ class Home {
       reader.onload = () => {
         const data = JSON.parse(reader.result)
         this.timeline.json = data
+        this.timeline.setMode('edit')
       }
       reader.readAsText(file)
     }

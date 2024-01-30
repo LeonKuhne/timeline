@@ -87,12 +87,23 @@ export default class Timeline extends HTMLElement {
 
     // scroll y -> change font size
     this.addEventListener('wheel', (e) => {
-      const delta = Math.sign(-e.deltaY) * 0.1
-      const fontSize = parseFloat(getComputedStyle(this).fontSize)
-      this.style.fontSize = `${fontSize + delta}px`
+      const x = e.clientX / window.innerWidth * 2 - 1
+      const delta = Math.sign(-e.deltaY) * .2
+      this.scale(x, delta)
     })
 
+    // pinch -> change font size
+
     this.created = true
+  }
+
+  scale(x, delta) {
+    console.log(x)
+    const fontSize = parseFloat(getComputedStyle(this).fontSize)
+    const widthBefore = this.scrollWidth
+    this.style.fontSize = `${fontSize + delta}px`
+    const widthDelta = this.scrollWidth - widthBefore
+    this.scrollLeft += widthDelta / 2 * (x + 1)
   }
 
   setMode(mode) {

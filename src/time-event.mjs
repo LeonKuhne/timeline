@@ -1,5 +1,5 @@
 export default class TimeEvent extends HTMLElement {
-  minWidth = 10
+  minWidth = 15
   constructor() { super() }
 
   connectedCallback() {
@@ -15,6 +15,10 @@ export default class TimeEvent extends HTMLElement {
     })
     this.descriptionElem = this.spawnChild('textarea', elem => {
       elem.classList.add('description')
+      elem.addEventListener('wheel', e => {
+        if(elem.scrollHeight == elem.clientHeight) return
+        e.stopPropagation()
+      })
     })
   }
 

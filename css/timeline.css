@@ -42,7 +42,6 @@
       position: absolute;
       cursor: inherit;
       bottom: 0;
-      padding: 0;
       border: 0;
       background: none;
       color: var(--primary);
@@ -60,11 +59,12 @@
     color: var(--primary);
     height: 50%;
     border: 0;
-    padding: 0;
+    padding: 0 .5rem;
     margin: 0;
     resize: none;
     font-size: 75%;
     text-align: center;
+    overflow-x: hidden;
   } textarea.description:focus {
     outline: none;
   }

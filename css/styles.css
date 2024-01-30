@@ -4,29 +4,29 @@ html {
 } body { 
   margin: auto;
   width: 100%;
-  height: 50vh;
-  margin-top: 25vh;
+  height: 62vh;
+  margin-top: 19vh;
   display: flex;
   flex-direction: column;
   background: var(--bg0);
   > * { flex: 1; }
+} #instructions {
+  top: 4vh;
+} #project {
+  bottom: 4vh;
+  a, label {
+    text-decoration: none;
+    color: black;
+  }
 } #instructions, #project {
+  font-size: 3vh;
+  line-height: 5vh;
   position: absolute;
   left: 0;
   width: 100%;
   text-align: center;
   user-select: none;
-  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.5;
-} #instructions {
-  top: 7%;
-} #project {
-  bottom: 7%;
-  a, label {
-    text-decoration: none;
-    color: black;
-  }
 } #download :hover, #upload :hover {
   cursor: pointer;
   color: var(--alt3);
