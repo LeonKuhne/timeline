@@ -93,6 +93,12 @@ export default class Timeline extends HTMLElement {
     })
 
     // pinch -> change font size
+    this.addEventListener('touchmove', (e) => {
+      if (e.touches.length != 2) return
+      const x = (e.touches[0].clientX + e.touches[1].clientX) / window.innerWidth - 1
+      const delta = Math.sign(e.touches[0].clientY - e.touches[1].clientY) * .2
+      this.scale(x, delta)
+    })
 
     this.created = true
   }
