@@ -22,8 +22,15 @@
 } tl-timeline[mode="edit"] {
   background: var(--tertiary) !important;
   cursor: pointer !important;
+  .marker {
+    background: var(--bg1);
+    border-color: var(--alt5);
+    input.name {
+      color: var(--primary) !important;
+    }
+  }
 } tl-event {
-  color: white;
+  color: var(--primary);
   flex: 1;
   min-width: min-content;
   user-select: none;
@@ -82,6 +89,7 @@
 } .marker {
   border-radius: 50%;
   margin: auto 0;
+  padding: .25rem;
   background: var(--primary);
   border: 2px solid var(--bg1);
   z-index: 10;
@@ -89,12 +97,12 @@
   .name-container {
     max-width: min-content;
     input.name {
-      color: black;
+      color: var(--bg0);
       flex: 1;
       position: relative !important;
       margin: auto;
       display: block;
-      padding-top: 0;
+      padding: 0;
       min-width: var(--marker-size);
       min-height: var(--marker-size);
       max-width: var(--marker-size);
