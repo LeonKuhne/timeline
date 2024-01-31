@@ -39,9 +39,8 @@
   justify-content: center;
   > * { flex: 1; }
   .name-container {
+    width: 100%;
     position: relative;
-    min-width: min-content;
-    max-width: min-content;
     flex: 1;
     display: flex;
     input.name {
@@ -115,4 +114,21 @@
   max-height: 5px;
   background: var(--alt5);
   box-shadow: none;
+} .soundcloud {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 2.5rem;
+  width: 2.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+  z-index: 1;
+  background: white;
+  border: 2px inset white;
+  iframe {
+    margin: -.7rem;
+    width: 5rem;
+    z-index: 0;
+  }
 }

@@ -104,7 +104,6 @@ export default class Timeline extends HTMLElement {
   }
 
   scale(x, delta) {
-    console.log(x)
     const fontSize = parseFloat(getComputedStyle(this).fontSize)
     const widthBefore = this.scrollWidth
     this.style.fontSize = `${fontSize + delta}px`

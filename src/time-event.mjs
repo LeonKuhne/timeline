@@ -19,12 +19,16 @@ export default class TimeEvent extends HTMLElement {
         if(elem.scrollHeight == elem.clientHeight) return
         e.stopPropagation()
       })
+      elem.dispatchEvent(new Event('input'))
+    })
+    this.descriptionElem.addEventListener('input', () => {
+      this._parseSoundCloud(this.descriptionElem.value)
     })
   }
 
   setupMarker(name) {
-    const topElem = this.spawnChild('div', elem => elem.classList.add('name-container'))
-    this.nameElem = topElem.spawnChild('input', elem => {
+    this.topElem = this.spawnChild('div', elem => elem.classList.add('name-container'))
+    this.nameElem = this.topElem.spawnChild('input', elem => {
       elem.classList.add('name')
       elem.value = name
       elem.addEventListener('mouseleave', () => elem.blur())
@@ -59,5 +63,20 @@ export default class TimeEvent extends HTMLElement {
       title: this.nameElem.value,
       description: this.descriptionElem.value
     }
+  }
+
+  // soundcloud/trackId (trackid found in the widget url)
+  _parseSoundCloud(text) {
+    const match = text.match(/soundcloud\/([^/ \n,\]]+)(?:\/([^/ \n,\)\]]+))?/)
+    if (!match) { this.topElem.querySelector('.soundcloud')?.remove(); return }
+    const trackId = match[1]
+    let widgetParams = `&color=%2368442d&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true`
+    const src = `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${trackId}${widgetParams}`
+    const iframe = `<iframe scrolling="no" frameborder="no" allow="autoplay" src="${src}"></iframe>`
+    // prepend iframe
+    const elem = document.createElement('div')
+    elem.classList.add('soundcloud')
+    elem.innerHTML = iframe
+    this.topElem.appendChild(elem)
   }
 }
