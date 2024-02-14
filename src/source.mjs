@@ -29,14 +29,15 @@ class Home {
   setupDownload() {
     const button = document.querySelector('#download')
     const link = document.createElement('a')
-    // link
-    link.download = 'timeline.json'
+    // get the first tl-event that isnt of class marker
     link.textContent = button.textContent
     link.href = ''
     link.onclick = () => {
+      const filename = document.querySelector('tl-event:not(.marker) input')?.value?.trim() || 'timeline'
       const data = this.timeline.json
       const blob = new Blob([JSON.stringify(data)], {type: 'application/json'})
       const url = URL.createObjectURL(blob)
+      link.download = `${filename}.json`
       link.href = url 
     }
     // button
